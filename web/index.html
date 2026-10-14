@@ -1,0 +1,42 @@
+<!-- SPDX-FileCopyrightText: Copyright Logically Magic Inc. <hello@logicallymagic.com> -->
+<!-- SPDX-FileCopyrightText: Copyright Hamid Jahanzad <Hamid@Jahanzad.com> -->
+<!-- SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eTeller</title>
+</head>
+<body>
+  <!-- Override CanvasKit URL to use the local dev server copy instead of
+       the gstatic.com CDN (unreachable in offline/air-gapped environments). -->
+  <script>
+    (function () {
+      var cfg = { canvasKitBaseUrl: '/canvaskit/' };
+      var realLoader = null;
+      if (!window._flutter) window._flutter = {};
+      Object.defineProperty(window._flutter, 'loader', {
+        get: function () {
+          if (!realLoader) return undefined;
+          return new Proxy(realLoader, {
+            get: function (target, prop) {
+              if (prop === 'load') {
+                return function (c) { return target.load(Object.assign({}, cfg, c || {})); };
+              }
+              return target[prop];
+            }
+          });
+        },
+        set: function (val) { realLoader = val; return true; },
+        configurable: true,
+      });
+    })();
+  </script>
+  <script src="flutter.js" defer></script>
+  <script src="flutter_bootstrap.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{
+  "vertical": "bank8",
+  "services": [],
+  "apps": [
+    {
+      "slug": "eteller",
+      "web_dir": "build/web",
+      "listing": {
+        "app_name": "Bank8:eTeller",
+        "app_slug": "bank8-eteller",
+        "description": "Branch teller terminal for cash deposits, cheque deposits, withdrawals, transfers, and customer account management. Staff-only app — no customer login.",
+        "backend_url": "http://localhost:3007",
+        "supports_dcr": true,
+        "visibility": "public",
+        "status": "published",
+        "oauth_defaults": {
+          "grant_types": [
+            "authorization_code",
+            "refresh_token"
+          ],
+          "response_types": [
+            "code"
+          ],
+          "token_endpoint_auth_method": "none",
+          "scopes": [
+            "bank8:ledger:accounts:read",
+            "bank8:ledger:accounts:write",
+            "bank8:ledger:audit:read",
+            "bank8:ledger:balances:read",
+            "bank8:ledger:customers:write",
+            "bank8:ledger:dlq:read",
+            "bank8:ledger:dlq:republish",
+            "bank8:ledger:postings:read",
+            "bank8:ledger:postings:write",
+            "bank8:ledger:products:read",
+            "bank8:ledger:products:write",
+            "bank8:ledger:schedules:read",
+            "bank8:ledger:schedules:write",
+            "bank8:payments:cards:read",
+            "bank8:payments:cards:write",
+            "bank8:payments:files:read",
+            "bank8:payments:files:write",
+            "bank8:payments:instructions:read",
+            "bank8:payments:instructions:write",
+            "bank8:payments:mandates:read",
+            "bank8:payments:mandates:write",
+            "bank8:payments:manual-decisions:read",
+            "bank8:payments:manual-decisions:write",
+            "bank8:payments:payments:read",
+            "bank8:payments:payments:write",
+            "bank8:payments:routing:read",
+            "bank8:payments:tasks:approve",
+            "bank8:payments:tasks:read",
+            "bank8:payments:tasks:write",
+            "email",
+            "openid",
+            "profile"
+          ],
+          "consent_required": false
+        }
+      }
+    }
+  ]
+}
