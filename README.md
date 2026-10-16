@@ -34,7 +34,7 @@ graph TD
     M --> C[ETellerContext — inherited app state]
     C --> S[ETellerServices — staff + delegated client registries]
 
-    subgraph Via Sentin8:BFF — session cookie, tokens server-side
+    subgraph SGcvnbup["Via Sentin8:BFF — session cookie, tokens server-side"]
         S -->|staffLedger — never delegated| LED[bank8-ledger — internal accounts]
         S -->|delegated — X-BFF-Delegation| LED2[bank8-ledger — customer postings]
         S --> PAY[bank8-payments — tasks + decisions]

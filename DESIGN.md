@@ -36,7 +36,7 @@ graph TD
 
 ```mermaid
 graph TD
-    subgraph eTeller process (Flutter web)
+    subgraph SG7gjsi4["eTeller process (Flutter web)"]
         MAIN[main.dart — bootstrap + test bridge] --> CTX[ETellerContext inherited provider]
         CTX --> SVC[ETellerServices staff + delegated registries]
         CTX --> IAR[InternalAccountResolver staff-scoped cache]
@@ -67,7 +67,7 @@ sequenceDiagram
     F->>L: POST /v1/postings (Bearer delegated token)
     L->>L: Shield policy + holder-scoped RLS + posting + outbox event
     L-->>T: 201 receipt (rendered by receipt page)
-    note over T,L: expiry drops the delegated registry; expired delegation = staff-only navigation
+    Note over T,L: expiry drops the delegated registry, expired delegation = staff-only navigation
 ```
 
 Request lifecycle (staff-only internal-account resolution):
