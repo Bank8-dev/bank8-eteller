@@ -1,4 +1,4 @@
-# DESIGN.md: Bank8:eTeller — Detailed Design Document
+# Bank8:eTeller — Detailed Design Document
 
 Overview-level material lives in `README.md`; the business view lives in
 `BUSINESS.md`. This document carries the wire-level app contract: the OAuth
