@@ -1,4 +1,4 @@
-# README.md: Bank8:eTeller — Staff Teller Terminal App
+# README.md: Bank8:eTeller - Staff Teller Terminal App
 
 > Third-party Sentin8:App application. It uses the Sentin8 Flutter SDK
 > (`sdk/flutter/sentin8`) as a published package. For wire-level detail read
@@ -8,7 +8,7 @@
 
 eTeller is the staff Flutter app of the Bank8 vertical: a branch teller
 terminal for customer search/onboarding and **delegated** customer
-operations — cash/cheque deposits, withdrawals, transfers, account
+operations - cash/cheque deposits, withdrawals, transfers, account
 management, statement viewing, posting-batch review, DLQ and manual-decision
 handling, and payment approval tasks. Customer-data operations ride a
 CIBA-delegated, time-boxed customer token; the teller never holds customer
@@ -16,7 +16,7 @@ credentials.
 
 ## 2. Motivation
 
-A teller does bank work *on behalf of* a customer standing at the counter —
+A teller does bank work *on behalf of* a customer standing at the counter -
 but authorization systems speak the language of "who is allowed to do what
 with whose account". The platform's answer is explicit, auditable delegation:
 the teller picks the customer, the customer (or assisted link) approves the
@@ -30,38 +30,38 @@ needs.
 ```mermaid
 graph TD
     B[Teller browser] --> M[main.dart bootstrap]
-    M --> RC[fetchRuntimeContext — own origin, fail-closed]
-    M --> C[ETellerContext — inherited app state]
-    C --> S[ETellerServices — staff + delegated client registries]
+    M --> RC[fetchRuntimeContext - own origin, fail-closed]
+    M --> C[ETellerContext - inherited app state]
+    C --> S[ETellerServices - staff + delegated client registries]
 
-    subgraph SGcvnbup["Via Sentin8:BFF — session cookie, tokens server-side"]
-        S -->|staffLedger — never delegated| LED[bank8-ledger — internal accounts]
-        S -->|delegated — X-BFF-Delegation| LED2[bank8-ledger — customer postings]
-        S --> PAY[bank8-payments — tasks + decisions]
-        S --> DEL[BFF /delegate/* — CIBA lifecycle]
-        S --> WS[BFF WebSocket — delegation updates]
+    subgraph SGcvnbup["Via Sentin8:BFF - session cookie, tokens server-side"]
+        S -->|staffLedger - never delegated| LED[bank8-ledger - internal accounts]
+        S -->|delegated - X-BFF-Delegation| LED2[bank8-ledger - customer postings]
+        S --> PAY[bank8-payments - tasks + decisions]
+        S --> DEL[BFF /delegate/* - CIBA lifecycle]
+        S --> WS[BFF WebSocket - delegation updates]
     end
 ```
 
 Components:
 
-- **Bootstrap** — `fetchRuntimeContext()` (SDK) from own origin; failure
+- **Bootstrap** - `fetchRuntimeContext()` (SDK) from own origin; failure
   is fatal, never degraded.
-- **`ETellerContext`** (`app_context.dart`) — state holder adding the
+- **`ETellerContext`** (`app_context.dart`) - state holder adding the
   `InternalAccountResolver`, the client-side `sessionLog`, the active
   delegation setter, and the `navigate` callback.
-- **`ETellerServices`** (`services.dart`) — `ledger`, `payments` clients plus
+- **`ETellerServices`** (`services.dart`) - `ledger`, `payments` clients plus
   a dedicated `staffLedger` client that is **never** delegation-stamped, and
   the `delegatedCustomer` factory that stamps `X-BFF-Delegation` on every
   customer-scoped call.
-- **`InternalAccountResolver`** (`internal_accounts.dart`) — staff-scoped
+- **`InternalAccountResolver`** (`internal_accounts.dart`) - staff-scoped
   cache of internal account ids by nickname (cash, cheque clearing,
   liquidity, clearing, suspense) used as posting counterparties.
-- **Delegation lifecycle** (`eteller_shell.dart`) — CIBA poll / assisted-link
+- **Delegation lifecycle** (`eteller_shell.dart`) - CIBA poll / assisted-link
   journeys via BFF `/delegate/*`, delegation state persisted in
   `sessionStorage` and revalidated after page reload; live updates ride the
   BFF WebSocket.
-- **Pages** — teller journeys (see `DESIGN.md` §4 for the full route map).
+- **Pages** - teller journeys (see `DESIGN.md` §4 for the full route map).
 
 ## 4. Key Traits and Data Structures
 
@@ -70,7 +70,7 @@ Components:
   `X-BFF-Delegation: {delegationId}`; the BFF attaches the CIBA-delegated
   token whose `sub` is the customer and `act` the teller).
 - **`InternalAccountResolver`**: nickname-keyed internal account lookup with
-  an org-validated env override — internal accounts are counterparty
+  an org-validated env override - internal accounts are counterparty
   plumbing invisible to holder tokens, so they resolve only via staff scope.
 - **`sessionLog`**: a per-shift client-side log of teller operations that
   feeds the shift summary, the pending-cheque view, and receipts.
@@ -90,7 +90,7 @@ Components:
   unauditable, unsafe) and direct teller-token writes to customer accounts
   (breaks holder attribution).
 - **Separate `staffLedger` client.** Internal accounts cannot be resolved
-  with a delegated (holder) token — they carry no `customer_id` — so mixing
+  with a delegated (holder) token - they carry no `customer_id` - so mixing
   them into the delegated registry guarantees failure or, worse, leakage
   attempts. A structurally separate client makes the invisible-to-holders
   rule executable. Rejected: one multiplexed registry with per-call flags.
@@ -98,13 +98,13 @@ Components:
   reloads the terminal mid-operation; the delegation must survive reload but
   only if the BFF still considers it valid. Client-side storage alone is
   untrusted; the restore loop revalidates against the BFF before any page
-  uses it. Rejected: in-memory-only state (fragile) — and trust-on-reload
+  uses it. Rejected: in-memory-only state (fragile) - and trust-on-reload
   (unsafe).
 - **WebSocket (not SSE) for delegation updates.** Delegation approval is an
   interactive, bidirectional wait state on the terminal; the platform
   reserves WebSocket for the bidirectional tier, and this is one.
 - **Counterparty model over free-form accounts.** Deposits/withdrawals pick
-  internal accounts from the resolver by nickname — the teller cannot typo a
+  internal accounts from the resolver by nickname - the teller cannot typo a
   GL account; teller-initiated transfers remain explicit.
 
 ## 6. Internal Implementation & Invariants (Private Design)
@@ -125,7 +125,7 @@ Components:
   menu unreachable to Playwright otherwise).
 - **Invariants:**
   - Exactly three operations are staff-token-only: customer search,
-    onboarding, and the shift summary — everything touching customer data
+    onboarding, and the shift summary - everything touching customer data
     requires an active delegation.
   - The delegated registry is discarded the moment the delegation expires.
   - Internal accounts are never requested through the delegated client.

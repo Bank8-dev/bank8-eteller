@@ -1,4 +1,4 @@
-# Bank8:eTeller — Detailed Design Document
+# Bank8:eTeller - Detailed Design Document
 
 Overview-level material lives in `README.md`; the business view lives in
 `BUSINESS.md`. This document carries the wire-level app contract: the OAuth
@@ -22,14 +22,14 @@ BFF); policy decisions (Shield in each backend).
 ```mermaid
 graph TD
     TB[Teller browser] --> ET[Bank8:eTeller Flutter app]
-    CB[Customer device — approval] -.approves.-> AUTH
+    CB[Customer device - approval] -.approves.-> AUTH
     ET -->|session cookie + CSRF| BFF[Sentin8:BFF bff domain]
     BFF --> DEL[BFF delegate endpoints]
     DEL --> AUTH[Sentin8:Auth]
     BFF -->|delegated token, act=teller| LED[Bank8:Ledger customer operations]
     BFF -->|delegated token| PAY[Bank8:Payments tasks + decisions]
     BFF -->|staff token| LED2[Bank8:Ledger internal accounts + search]
-    ET -->|WebSocket wss — delegation updates| BFF
+    ET -->|WebSocket wss - delegation updates| BFF
 ```
 
 ## 2. Runtime Architecture
@@ -37,11 +37,11 @@ graph TD
 ```mermaid
 graph TD
     subgraph SG7gjsi4["eTeller process (Flutter web)"]
-        MAIN[main.dart — bootstrap + test bridge] --> CTX[ETellerContext inherited provider]
+        MAIN[main.dart - bootstrap + test bridge] --> CTX[ETellerContext inherited provider]
         CTX --> SVC[ETellerServices staff + delegated registries]
         CTX --> IAR[InternalAccountResolver staff-scoped cache]
         CTX --> LOG[sessionLog client-side ledger of teller ops]
-        SHELL[eteller_shell — hash router + delegation lifecycle] --> PAGES[pages/*]
+        SHELL[eteller_shell - hash router + delegation lifecycle] --> PAGES[pages/*]
         SHELL --> WS[BffWebSocket delegation updates]
         SHELL --> RESTORE[Delegation restore loop on reload]
         PAGES --> SVC
@@ -125,7 +125,7 @@ All backend calls are BFF-proxied; the app has no listening port.
 | Approval tasks | `GET /proxy/bank8-payments/v1/tasks`, `POST /v1/tasks/{id}/{action}` | staff; `bank8:payments:tasks:read/write/approve` | approvals |
 | Manual decisions | `GET /v1/manual-decisions`, `POST /v1/manual-decisions/{id}/submit` | staff; `bank8:payments:manual-decisions:read/write` | decisions |
 
-**Delegated (CIBA) customer surface — `X-BFF-Delegation` on every call:**
+**Delegated (CIBA) customer surface - `X-BFF-Delegation` on every call:**
 
 | Consumer | Method + path (via BFF) | Delegated customer scope |
 |---|---|---|
@@ -142,7 +142,7 @@ All backend calls are BFF-proxied; the app has no listening port.
 ride the BFF WebSocket (`/ws`).
 
 **OAuth scope manifest** (`app8-listing.json`; `app.json` mirrors it): 32
-scopes — identity (`openid`, `profile`, `email`); ledger (accounts
+scopes - identity (`openid`, `profile`, `email`); ledger (accounts
 read/write + `write:any`, balances, customers write, DLQ read/republish,
 postings read/write, products read/write, schedules read/write, audit read);
 payments (cards, files, instructions, mandates, manual-decisions, payments,
@@ -151,7 +151,7 @@ routing, tasks read/write/approve). Grants: `authorization_code`,
 
 **CIBA declaration (`ciba_defaults`):** delivery `assisted_link`, request
 mode `poll`, expiry 300 s, poll interval 5 s, binding-message template
-`eTeller request from {teller_name} — {operation_label}`, and the delegated
+`eTeller request from {teller_name} - {operation_label}`, and the delegated
 customer scope subset (accounts/postings/balances/customers read, products,
 instructions, cards, mandates).
 
@@ -161,7 +161,7 @@ Event flow eTeller participates in:
 flowchart LR
     OP[eTeller delegated posting] --> LEDX[Bank8:Ledger posting + outbox]
     LEDX --> BUS[Sentin8:Bus stream]
-    BUS --> CON[downstream consumers — recon / statements]
+    BUS --> CON[downstream consumers - recon / statements]
     DEC[Payments task / decision flow] --> WS[BFF WebSocket]
     WS -->|delegation + task updates| ET[eTeller terminal]
 ```
@@ -175,7 +175,7 @@ flowchart LR
   the staff env override for internal accounts is validated against org
   membership by the BFF/ledger, never trusted from the client.
 - **Authorization.** Three staff-token-only operations; customer operations
-  require delegation — enforced by the BFF + downstream services, never by
+  require delegation - enforced by the BFF + downstream services, never by
   hidden UI. The delegated scope subset is narrower than the staff manifest.
 - **Idempotency.** Every posting carries `batch_id` + `idempotency_key`;
   retry loops (deposits/withdrawals) reuse the same key.
@@ -213,7 +213,7 @@ flowchart LR
 
 ## 8. Invariants, Insecure-Defaults Rejected, Unsafe Rationale
 
-- The teller never holds customer credentials or delegated tokens — only the
+- The teller never holds customer credentials or delegated tokens - only the
   delegation id (in `sessionStorage`), never secret material.
 - Customer-data operations without an active delegation are impossible (the
   delegated registry does not exist until `delegatedCustomer` is built).
@@ -235,7 +235,7 @@ flowchart LR
 | Sign-out parity | `test_bridge.dart` guarantees E2E exercises the same sign-out path as the user menu | E2E |
 
 Not tested here (platform scope): CIBA token issuance, delegation gateway
-state machine, ledger posting math, RLS isolation — covered by the owning
+state machine, ledger posting math, RLS isolation - covered by the owning
 services' suites.
 
 ```mermaid
@@ -248,23 +248,23 @@ graph TD
 ## 10. Open Questions
 
 - Cheque clearing settlement (cleared/bounced) should conclude through the
-  ledger cheque pipeline rather than the client log — the durable half of
+  ledger cheque pipeline rather than the client log - the durable half of
   that flow is the known gap.
 - Cash-drawer balancing / end-of-day reconciliation may deserve a
   server-side session record instead of the client-side `sessionLog`.
 
 ### Appendix: OAuth scope manifest (full list)
 
-`app8-listing.json` carries 32 scopes — every one has a real handler gate in
+`app8-listing.json` carries 32 scopes - every one has a real handler gate in
 the service registries:
 
-- **Identity (OpenID Connect)** — 3: `openid`, `profile`, `email`
-- **Ledger** — 12: `bank8:ledger:accounts:read/write`,
+- **Identity (OpenID Connect)** - 3: `openid`, `profile`, `email`
+- **Ledger** - 12: `bank8:ledger:accounts:read/write`,
   `bank8:ledger:balances:read`, `bank8:ledger:customers:write`,
   `bank8:ledger:dlq:read/republish`, `bank8:ledger:postings:read/write`,
   `bank8:ledger:products:read/write`, `bank8:ledger:schedules:read/write`,
   `bank8:ledger:audit:read`
-- **Payments** — 17: `bank8:payments:cards:read/write`,
+- **Payments** - 17: `bank8:payments:cards:read/write`,
   `bank8:payments:files:read/write`,
   `bank8:payments:instructions:read/write`,
   `bank8:payments:mandates:read/write`,

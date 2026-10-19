@@ -8,7 +8,7 @@
       "listing": {
         "app_name": "Bank8:eTeller",
         "app_slug": "bank8-eteller",
-        "description": "Branch teller terminal for cash deposits, cheque deposits, withdrawals, transfers, and customer account management. Staff-only app — no customer login.",
+        "description": "Branch teller terminal for cash deposits, cheque deposits, withdrawals, transfers, and customer account management. Staff-only app - no customer login.",
         "backend_url": "http://localhost:3007",
         "supports_dcr": true,
         "visibility": "public",

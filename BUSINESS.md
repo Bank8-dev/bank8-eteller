@@ -1,4 +1,4 @@
-# Bank8:eTeller — Business Requirements & Functionality
+# Bank8:eTeller - Business Requirements & Functionality
 
 > Audience: product owners, business analysts, and anyone evaluating what
 > Bank8:eTeller **does for the business**. For architecture read `README.md`;
@@ -53,7 +53,7 @@
 | Cheque handling | Cheque deposit + pending tracking | Cheques post as authorized (inbound authorisation) against the cheque-clearing internal account; pending cheques are tracked until settlement concludes. |
 | Transfers | Teller-initiated transfer | Counter transfers post as transfer instructions with idempotency keys. |
 | Servicing | Account management + statements | Account status changes and statement listing operate on the delegated customer's accounts only. |
-| Operations | Batches, DLQ, decisions, tasks | Staff review committed batches, land/replay DLQ entries, submit manual payment decisions, and act on approval tasks — all staff-authorize, all audited. |
+| Operations | Batches, DLQ, decisions, tasks | Staff review committed batches, land/replay DLQ entries, submit manual payment decisions, and act on approval tasks - all staff-authorize, all audited. |
 | Shift control | Shift summary | The teller sees their own shift's operation counts; the shift summary is staff-only. |
 
 ## 4. Business Events (Outbound)
@@ -81,12 +81,12 @@ upstream events in the owning services:
 3. Exactly three operations run on the staff token alone: customer search,
    customer onboarding, shift summary.
 4. Internal bank accounts (cash, clearing, suspense, liquidity) are reachable
-   only through the staff scope — never through delegated customer access.
+   only through the staff scope - never through delegated customer access.
 5. Every posting is idempotent; teller retries cannot double-post.
 6. Manual decisions and task actions are staff-authorize and audited; a
    decision can always be traced to the acting teller.
 7. The terminal fails closed without a verified instance identity.
-8. Receipts are rendered from posting result data — the app never invents
+8. Receipts are rendered from posting result data - the app never invents
    financial figures.
 
 ## 6. Target-User Roles & Use Cases
@@ -128,7 +128,7 @@ upstream events in the owning services:
 1. A teller can find a customer and start a delegation; the customer approves
    on their own device; the teller then performs the operation under the
    delegated authority.
-2. A delegation expiry or customer denial always blocks the operation — never
+2. A delegation expiry or customer denial always blocks the operation - never
    proceeds on stale authority.
 3. Cash/cheque deposits and withdrawals post against the correct internal
    counterparty accounts without the teller typing account numbers.

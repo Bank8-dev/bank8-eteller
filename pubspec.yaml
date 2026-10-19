@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: eteller
-description: eTeller — Sentin8 branch teller terminal. Cash deposits, cheque deposits, withdrawals, transfers, customer management.
+description: eTeller - Sentin8 branch teller terminal. Cash deposits, cheque deposits, withdrawals, transfers, customer management.
 publish_to: "none"
 version: 0.1.0
 
