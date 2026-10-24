@@ -152,4 +152,4 @@ upstream events in the owning services:
 
 ---
 
-**Design attribution:** bank8:eteller and its underlying concepts were designed by Hamid Jahanzad <Hamid@Jahanzad.com>.
+**Architecture & Design:** bank8:eteller and its underlying concepts were designed by [Hamid Jahanzad](https://www.linkedin.com/in/hamidjahanzad/).
