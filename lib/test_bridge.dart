@@ -3,14 +3,14 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller
 // SPDX-License-Identifier: Apache-2.0
 
-// eTeller — Test bridge for e2e automation.
+// eTeller - Test bridge for e2e automation.
 //
-// E2e tests interact with the app ONLY through the UI — clicking
+// E2e tests interact with the app ONLY through the UI - clicking
 // buttons, typing into fields, and calling these test bridge functions
 // which trigger the same Flutter widget code as clicking the UI control.
 // No direct API/fetch calls are made from the test.
 //
-// Mirrors sentin8/apps/dash/lib/test_bridge.dart — e2e tests call
+// Mirrors sentin8/apps/dash/lib/test_bridge.dart - e2e tests call
 // window.sentin8TestSignOut() to sign out via the same code path as the
 // SDK AuthProvider (BFF /auth/sign-out + local state clear). Without this
 // bridge, signOutViaUI in the e2e harness is a silent no-op on eTeller

@@ -6,11 +6,11 @@
 import 'package:flutter/material.dart';
 import '../app_context.dart';
 
-/// Posting-batch review page — inspect posting batches
+/// Posting-batch review page - inspect posting batches
 /// (`GET /v1/postings` + `GET /v1/postings/{id}`
 /// + `GET /v1/postings/{id}/instructions`, gates
 /// `bank8:ledger:postings:read`). The teller reviews what a batch
-/// actually committed — the read-your-writes check for counter work.
+/// actually committed - the read-your-writes check for counter work.
 class PostingBatchesPage extends StatefulWidget {
   const PostingBatchesPage({super.key});
   @override State<PostingBatchesPage> createState() => _PostingBatchesPageState();
@@ -72,8 +72,8 @@ class _PostingBatchesPageState extends State<PostingBatchesPage> {
                         initiallyExpanded: expanded,
                         title: Text('Batch $id'),
                         subtitle: Text(
-                            'Status: ${p['status'] ?? '—'}'
-                            ' · Instructions: ${p['instruction_count'] ?? '—'}'
+                            'Status: ${p['status'] ?? ' - '}'
+                            ' · Instructions: ${p['instruction_count'] ?? ' - '}'
                             ' · ${p['created_at'] ?? ''}'),
                         onExpansionChanged: (open) {
                           if (open) _openInstructions(id);
@@ -85,9 +85,9 @@ class _PostingBatchesPageState extends State<PostingBatchesPage> {
                           ...?_expandedInstructions?.map((ins) => ListTile(
                                 dense: true,
                                 title: Text(
-                                    '${ins['instruction_type'] ?? ''} — ${ins['amount'] ?? ''} ${ins['denomination'] ?? ''}'),
+                                    '${ins['instruction_type'] ?? ''} - ${ins['amount'] ?? ''} ${ins['denomination'] ?? ''}'),
                                 subtitle: Text(
-                                    'debit ${ins['debit_account'] ?? '—'} → credit ${ins['credit_account'] ?? '—'}'),
+                                    'debit ${ins['debit_account'] ?? ' - '} → credit ${ins['credit_account'] ?? ' - '}'),
                               )),
                         ],
                       ),

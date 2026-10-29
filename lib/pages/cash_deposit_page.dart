@@ -28,7 +28,7 @@ class _CashDepositPageState extends State<CashDepositPage> {
     final ctx = ETellerContextProvider.of(context)!;
     // Retry briefly: the page can mount while a route handoff/SSE event is
     // still settling, which aborts the first fetch (TypeError: Failed to
-    // fetch). A teller sees the same transient failure — retry until the
+    // fetch). A teller sees the same transient failure - retry until the
     // list arrives or attempts run out.
     Object? lastError;
     for (int attempt = 0; attempt < 4; attempt++) {
@@ -82,7 +82,7 @@ class _CashDepositPageState extends State<CashDepositPage> {
         children: [
           Text('Cash Deposit', style: Theme.of(context).textTheme.headlineSmall),
           const SizedBox(height: 24),
-          // §3.1.1 — account options as ALWAYS-VISIBLE choice cards: both
+          // §3.1.1 - account options as ALWAYS-VISIBLE choice cards: both
           // Autocomplete and DropdownButton render overlay menus that are
           // not exposed to flt-semantics (invisible to screen readers and
           // e2e tests). Same state contract as before.

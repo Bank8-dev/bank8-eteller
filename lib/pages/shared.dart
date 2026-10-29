@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller
 // SPDX-License-Identifier: Apache-2.0
 
-// eTeller shared helpers — posting, formatting, account label
+// eTeller shared helpers - posting, formatting, account label
 
 import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
@@ -44,7 +44,7 @@ Future<Map<String, String>> fetchCustomerNames(ETellerContext ctx) async {
 String _resolvedName(Map<String, dynamic> c) {
   final dn = c['display_name'] as String? ?? '';
   if (dn.isNotEmpty) return dn;
-  return c['resolved_display_name'] as String? ?? '—';
+  return c['resolved_display_name'] as String? ?? ' - ';
 }
 
 // Format account label for autocomplete

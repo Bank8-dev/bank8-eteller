@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import '../app_context.dart';
 
-/// Statements page — list the statements generated for one account
+/// Statements page - list the statements generated for one account
 /// (`GET /v1/accounts/{id}/statements`, gate
 /// `bank8:ledger:accounts:read`). Statement documents themselves are
 /// fetched through the storage signed-URL path by the account detail
@@ -45,7 +45,7 @@ class _StatementsPageState extends State<StatementsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Statements — ${widget.accountId}',
+            Text('Statements - ${widget.accountId}',
                 style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 16),
             if (_message != null) Text(_message!),
@@ -63,8 +63,8 @@ class _StatementsPageState extends State<StatementsPage> {
                           title: Text(
                               'Statement ${s['id'] ?? ''}'),
                           subtitle: Text(
-                              'Period: ${s['period_start'] ?? '—'} → ${s['period_end'] ?? '—'}'
-                              ' · Generated: ${s['generated_at'] ?? s['created_at'] ?? '—'}'),
+                              'Period: ${s['period_start'] ?? ' - '} → ${s['period_end'] ?? ' - '}'
+                              ' · Generated: ${s['generated_at'] ?? s['created_at'] ?? ' - '}'),
                         ),
                       );
                     },

@@ -3,11 +3,11 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller
 // SPDX-License-Identifier: Apache-2.0
 
-// eTeller — Delegation Choice Page.
+// eTeller - Delegation Choice Page.
 //
 // After customer search finds a customer, this page presents two options:
-// - CIBA (decoupled device — customer approves on authenticator)
-// - Assisted Login (front-channel link — customer authenticates in browser)
+// - CIBA (decoupled device - customer approves on authenticator)
+// - Assisted Login (front-channel link - customer authenticates in browser)
 //
 // The selected flow is sent to BFF POST /delegate/start (BFF's own endpoint,
 // not a proxied call).
@@ -23,7 +23,7 @@ class DelegationChoicePage extends StatefulWidget {
   final String customerName;
   final String customerEmail;
   final VoidCallback? onApproved;
-  /// §4.3f (Option A) — reports the BFF delegation session id as soon as
+  /// §4.3f (Option A) - reports the BFF delegation session id as soon as
   /// POST /delegate/start returns, so the shell can attach it to the
   /// customer-scoped service registry on approval.
   final ValueChanged<String>? onDelegationId;
@@ -173,13 +173,13 @@ class _DelegationChoicePageState extends State<DelegationChoicePage> {
         FilledButton.icon(
           onPressed: _isLoading ? null : () => _startDelegation('ciba'),
           icon: const Icon(Icons.phone_android),
-          label: const Text('CIBA — Customer approves on device'),
+          label: const Text('CIBA - Customer approves on device'),
         ),
         const SizedBox(height: Sentin8Spacing.md),
         FilledButton.icon(
           onPressed: _isLoading ? null : () => _startDelegation('assisted_login'),
           icon: const Icon(Icons.link),
-          label: const Text('Assisted Login — Send link to customer'),
+          label: const Text('Assisted Login - Send link to customer'),
         ),
         if (_isLoading) ...[
           const SizedBox(height: Sentin8Spacing.md),

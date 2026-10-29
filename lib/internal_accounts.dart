@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller
 // SPDX-License-Identifier: Apache-2.0
 
-// eTeller internal account resolver — caches platform internal accounts
+// eTeller internal account resolver - caches platform internal accounts
 // Resolves internal accounts by nickname for use as posting counterpart.
 //
 // Uses the STAFF-scoped ledger client (`services.staffLedger`, never

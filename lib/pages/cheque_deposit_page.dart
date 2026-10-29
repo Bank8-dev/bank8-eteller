@@ -38,7 +38,7 @@ class _ChequeDepositPageState extends State<ChequeDepositPage> {
     if (chequeAcct == null) { setState(() => _message = 'Cheque clearing account not found'); return; }
     final minor = toMinorUnits(_amountCtrl.text);
     if (minor == '0') { setState(() => _message = 'Please enter a valid amount'); return; }
-    final desc = 'Cheque deposit pending clearance — cheque #${_chequeNoCtrl.text}';
+    final desc = 'Cheque deposit pending clearance - cheque #${_chequeNoCtrl.text}';
     final result = await submitPosting(ctx,
       instructionType: 'inbound_authorisation',
       debitAccountId: chequeAcct,
@@ -47,7 +47,7 @@ class _ChequeDepositPageState extends State<ChequeDepositPage> {
       denomination: _selectedDenom ?? 'CAD',
       description: desc,
     );
-    setState(() => _message = result != null ? 'Cheque deposited — pending clearance' : 'Failed to deposit cheque');
+    setState(() => _message = result != null ? 'Cheque deposited - pending clearance' : 'Failed to deposit cheque');
   }
 
   @override

@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller
 // SPDX-License-Identifier: Apache-2.0
 
-// eTeller — main entry point
+// eTeller - main entry point
 // Branch teller terminal for Sentin8 platform.
 //
 // Bootstrap flow (same pattern as eBank):
@@ -27,7 +27,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // Enable semantics for e2e/Playwright ARIA access (per memory notes)
   SemanticsBinding.instance.ensureSemantics();
-  // F-D — register the e2e test bridge (window.sentin8TestSignOut). The
+  // F-D - register the e2e test bridge (window.sentin8TestSignOut). The
   // handler is wired to the AuthProvider when ETellerShell receives its
   // context; before that the bridge is a no-op.
   registerTestBridge();

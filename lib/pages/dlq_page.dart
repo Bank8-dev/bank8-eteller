@@ -6,9 +6,9 @@
 import 'package:flutter/material.dart';
 import '../app_context.dart';
 
-/// DLQ page — list the ledger's dead-letter queue entries and republish
+/// DLQ page - list the ledger's dead-letter queue entries and republish
 /// them (`GET /v1/dlq` + `POST /v1/dlq/{id}/republish`; gates
-/// `bank8:ledger:dlq:read` / `bank8:ledger:dlq:republish`). Ops surface —
+/// `bank8:ledger:dlq:read` / `bank8:ledger:dlq:republish`). Ops surface  - 
 /// reachable under the delegation window like the other customer-operation
 /// pages (the DLQ rows are tenant-scoped to the delegated customer's env
 /// via the BFF).
@@ -68,9 +68,9 @@ class _DlqPageState extends State<DlqPage> {
                         leading: const Icon(Icons.error_outline),
                         title: Text('Message $id'),
                         subtitle: Text(
-                          'Type: ${e['message_type'] ?? e['event_type'] ?? '—'}'
+                          'Type: ${e['message_type'] ?? e['event_type'] ?? ' - '}'
                           ' · Retries: ${e['retry_count'] ?? e['attempts'] ?? 0}'
-                          ' · Error: ${e['error_message'] ?? '—'}'),
+                          ' · Error: ${e['error_message'] ?? ' - '}'),
                         trailing: TextButton(
                           onPressed: () => _republish(id),
                           child: const Text('Republish'),

@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller
 // SPDX-License-Identifier: Apache-2.0
 
-// eTeller app context — central runtime state
+// eTeller app context - central runtime state
 // Ties together runtime context, auth, services, and internal account resolver
 
 import 'package:flutter/foundation.dart';
@@ -69,7 +69,7 @@ class ETellerContext extends ChangeNotifier {
   /// The active CIBA delegation session id, if any (§4.3f Option A).
   String? get activeDelegationId => _activeDelegationId;
 
-  /// §4.3f (Option A): rebuild the service registry as customer-scoped —
+  /// §4.3f (Option A): rebuild the service registry as customer-scoped  - 
   /// every ledger/payments call carries `X-BFF-Delegation` so the BFF
   /// attaches the customer-approved delegated token instead of the staff
   /// session token.
@@ -84,7 +84,7 @@ class ETellerContext extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Drop the customer-scoped registry (delegation expired/revoked) —
+  /// Drop the customer-scoped registry (delegation expired/revoked)  - 
   /// subsequent calls use the plain staff clients, which see no customer
   /// data (Option A: no standing staff scope).
   void clearActiveDelegation() {
@@ -105,7 +105,7 @@ class ETellerContext extends ChangeNotifier {
 
   List<Map<String, dynamic>> get sessionLog => List.unmodifiable(_sessionLog);
 
-  /// Shell-provided navigation hook — the dashboard quick-action tiles use
+  /// Shell-provided navigation hook - the dashboard quick-action tiles use
   /// it to route through the same guarded path as the sidebar items.
   /// Set by ETellerShell on first build; null before that.
   void Function(String route)? navigate;

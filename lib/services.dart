@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller
 // SPDX-License-Identifier: Apache-2.0
 
-// eTeller services — BFF proxy access layer for Ledger + Payments.
+// eTeller services - BFF proxy access layer for Ledger + Payments.
 //
 // BffApiClient, ApiResponse, and generateCorrelationId are re-exported
 // from sentin8. ETellerServices is app-specific.
@@ -19,7 +19,7 @@ class ETellerServices {
   final BffApiClient ledger;
   final BffApiClient payments;
 
-  /// §3.1.2 — staff-scoped ledger client. NEVER stamped with the delegation
+  /// §3.1.2 - staff-scoped ledger client. NEVER stamped with the delegation
   /// id, so it keeps the staff session token even while a customer
   /// delegation is active. Used by the internal-account resolver: internal
   /// accounts (customer_id IS NULL) are never visible to holder tokens.
@@ -45,12 +45,12 @@ class ETellerServices {
     );
   }
 
-  /// §4.3f (Option A) — customer-scoped registry for an ACTIVE CIBA
+  /// §4.3f (Option A) - customer-scoped registry for an ACTIVE CIBA
   /// delegation. Every request through these clients carries
   /// `X-BFF-Delegation: {delegationId}` so the BFF attaches the
   /// customer-approved, time-boxed delegated token (sub = customer,
   /// act = staff). When the delegation expires the shell must drop this
-  /// registry — the base (non-delegated) clients see no customer data.
+  /// registry - the base (non-delegated) clients see no customer data.
   factory ETellerServices.delegatedCustomer({
     required String bffBaseUrl,
     String? csrfToken,

@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller
 // SPDX-License-Identifier: Apache-2.0
 
-// eTeller pages barrel — exports all page widgets
+// eTeller pages barrel - exports all page widgets
 
 export 'eteller_shell.dart';
 export 'dashboard_page.dart';

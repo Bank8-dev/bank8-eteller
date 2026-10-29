@@ -37,7 +37,7 @@ class ReceiptPage extends StatelessWidget {
               children: [
                 Center(child: Text('eTeller', style: Theme.of(context).textTheme.headlineSmall)),
                 const Divider(),
-                _row('Transaction ID', transaction['batch_id'] as String? ?? '—'),
+                _row('Transaction ID', transaction['batch_id'] as String? ?? ' - '),
                 _row('Date/Time', DateTime.now().toIso8601String().substring(0, 19)),
                 _row('Teller ID', tellerId),
                 _row('Customer', customerName),

@@ -19,7 +19,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
   Map<String, dynamic>? _customer;
   List<dynamic>? _accounts;
   bool _loading = true;
-  // §3.1.3 — set when the delegation restore window ends without a service
+  // §3.1.3 - set when the delegation restore window ends without a service
   // registry (delegation dead / restore failed). The page then shows an
   // explicit message instead of a blank or crashed view.
   bool _restoreFailed = false;
@@ -29,7 +29,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
   Future<void> _load() async {
     final ctx = ETellerContextProvider.of(context)!;
     try {
-      // §3.1.3 — `services` is null while `_restoreDelegation` is still
+      // §3.1.3 - `services` is null while `_restoreDelegation` is still
       // polling `GET /delegate/status` after a reload. Retry briefly instead
       // of crashing on the null-check operator.
       Map<String, dynamic>? customer;
@@ -56,7 +56,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
           _accounts = accounts;
           _loading = false;
           // Registry still missing after the retry window: the restore did
-          // not complete — tell the user instead of showing empty data.
+          // not complete - tell the user instead of showing empty data.
           _restoreFailed = !restored;
         });
       }
@@ -69,7 +69,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
   Widget build(BuildContext context) {
     if (_loading) return const Center(child: CircularProgressIndicator());
     if (_restoreFailed) {
-      // §3.1.3 — the delegation restore never produced a service registry.
+      // §3.1.3 - the delegation restore never produced a service registry.
       return Scaffold(
         appBar: AppBar(title: const Text('Customer')),
         body: const Center(
@@ -86,8 +86,8 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Email: ${_customer?['email'] ?? '—'}'),
-            Text('Phone: ${_customer?['phone'] ?? '—'}'),
+            Text('Email: ${_customer?['email'] ?? ' - '}'),
+            Text('Phone: ${_customer?['phone'] ?? ' - '}'),
             const SizedBox(height: 24),
           Text('Accounts', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),

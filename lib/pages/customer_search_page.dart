@@ -19,7 +19,7 @@ class _CustomerSearchPageState extends State<CustomerSearchPage> {
   final _searchCtrl = TextEditingController();
 
   /// Searches Ledger customers in the caller's org/env via BFF proxy.
-  /// Results include `auth_user_id` — if non-null, the customer has an
+  /// Results include `auth_user_id` - if non-null, the customer has an
   /// env-scoped Auth account (i.e. can self-serve via CIBA delegation).
   Future<void> _search() async {
     final query = _searchCtrl.text.trim();
@@ -96,7 +96,7 @@ class _CustomerSearchPageState extends State<CustomerSearchPage> {
                                 if (hasAuthAccount) ...[
                                   const SizedBox(width: 8),
                                   Tooltip(
-                                    message: 'Has an Auth account — can self-serve via CIBA',
+                                    message: 'Has an Auth account - can self-serve via CIBA',
                                     child: Icon(Icons.verified_user, size: 16, color: Theme.of(context).colorScheme.primary),
                                   ),
                                 ],

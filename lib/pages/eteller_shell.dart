@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: Copyright Contributors to the Bank8:ETeller
 // SPDX-License-Identifier: Apache-2.0
 
-// eTeller shell — main app scaffold with left-rail navigation + content area.
+// eTeller shell - main app scaffold with left-rail navigation + content area.
 //
 // Mirrors the eBank / eFintech shell pattern (design/sentin8-design-system.md
 // §7): a 240px custom sidebar with org logo, nav list, and a pinned user
@@ -51,7 +51,7 @@ class _ETellerShellState extends State<ETellerShell> {
   // Customer-related menu items appear only after delegation.
   bool _hasDelegation = false;
   String? _delegationCustomerId;
-  /// §4.3f (Option A) — the active CIBA delegation session id (from BFF
+  /// §4.3f (Option A) - the active CIBA delegation session id (from BFF
   /// POST /delegate/start). Set when the customer approves; cleared on
   /// expiry/revoke. Drives the customer-scoped service registry.
   String? _delegationId;
@@ -60,7 +60,7 @@ class _ETellerShellState extends State<ETellerShell> {
   String _pollingStatus = 'pending';
   // BFF WebSocket client for real-time delegation updates.
   BffWebSocket? _ws;
-  // §3.0.3a — session-storage keys for delegation state restoration after a
+  // §3.0.3a - session-storage keys for delegation state restoration after a
   // full page reload (assisted-login round-trip navigates away and back).
   static const _ssDelegationId = 'eteller.delegation_id';
   static const _ssDelegationCustomerId = 'eteller.delegation_customer_id';
@@ -100,7 +100,7 @@ class _ETellerShellState extends State<ETellerShell> {
     _ws!.onDelegationExpired = (_) {
       if (mounted) _clearDelegation();
     };
-    // Live notification — show a snackbar.
+    // Live notification - show a snackbar.
     _ws!.onNotification = (msg) {
       if (!mounted) return;
       final title = msg['title'] as String? ?? 'Notification';
@@ -109,12 +109,12 @@ class _ETellerShellState extends State<ETellerShell> {
         SnackBar(content: Text('$title: $body'), duration: const Duration(seconds: 4)),
       );
     };
-    // Account updates — refresh the current page if relevant.
+    // Account updates - refresh the current page if relevant.
     _ws!.onAccountUpdate = (msg) {
       if (!mounted) return;
       // Pages can listen to this via a change notifier or just refresh.
       // For now, log it; pages will subscribe to specific resource IDs.
-      debugPrint('WS: account update — ${msg['resource_id'] ?? msg['account_id']}');
+      debugPrint('WS: account update - ${msg['resource_id'] ?? msg['account_id']}');
     };
     // Payment status changes.
     _ws!.onPaymentStatusChanged = (msg) {
@@ -132,7 +132,7 @@ class _ETellerShellState extends State<ETellerShell> {
     navigateTo(route);
   }
 
-  /// Called when customer search finds a customer — shows the delegation choice.
+  /// Called when customer search finds a customer - shows the delegation choice.
   void _startDelegation(String customerId, String customerName, String customerEmail) {
     setState(() {
       _delegationCustomerId = customerId;
@@ -144,8 +144,8 @@ class _ETellerShellState extends State<ETellerShell> {
     navigateTo('/delegation-choice');
   }
 
-  /// Called when delegation is approved — reveals customer operation menu items.
-  /// §4.3f (Option A): rebuilds the service registry as customer-scoped —
+  /// Called when delegation is approved - reveals customer operation menu items.
+  /// §4.3f (Option A): rebuilds the service registry as customer-scoped  - 
   /// every ledger/payments call now carries `X-BFF-Delegation` so the BFF
   /// attaches the customer-approved delegated token. No standing staff
   /// scope is involved.
@@ -162,7 +162,7 @@ class _ETellerShellState extends State<ETellerShell> {
     navigateTo('/customer-detail');
   }
 
-  // ── §3.0.3a — delegation session persistence (sessionStorage) ──────────
+  // ── §3.0.3a - delegation session persistence (sessionStorage) ──────────
 
   void _persistDelegation() {
     if (!kIsWeb) return;
@@ -191,12 +191,12 @@ class _ETellerShellState extends State<ETellerShell> {
   /// Restore a previously-approved delegation after a full page reload.
   /// Revalidates against BFF `GET /delegate/status`: the delegated token is
   /// minted by the BFF's background poller ~1 poll-interval (5s) AFTER the
-  /// customer approves — which may be seconds AFTER this shell reloaded
+  /// customer approves - which may be seconds AFTER this shell reloaded
   /// (the teller tab sits on the landing page while the customer authorizes
   /// in another tab). A single miss therefore means "not yet approved", so
   /// revalidate briefly (4 × 1s) before giving up; only a persistent
   /// has_token=false drops the persisted state (expired/unknown id).
-  /// The delegation token itself never touches client storage — only the id.
+  /// The delegation token itself never touches client storage - only the id.
   Future<void> _restoreDelegation(ETellerContext ctx) async {
     if (!kIsWeb || _restoringDelegation || _hasDelegation) return;
     _restoringDelegation = true;
@@ -206,7 +206,7 @@ class _ETellerShellState extends State<ETellerShell> {
       final custId = ss.getItem(_ssDelegationCustomerId);
       if (id == null || id.isEmpty || custId == null || custId.isEmpty) return;
       // Revalidate with short retries: between "start" and "approved" the
-      // token legitimately does not exist yet — a single miss must not drop
+      // token legitimately does not exist yet - a single miss must not drop
       // the entry (the assisted-login round-trip reloads the app seconds
       // before the approval lands).
       bool? alive;
@@ -220,7 +220,7 @@ class _ETellerShellState extends State<ETellerShell> {
         await Future.delayed(const Duration(seconds: 1));
       }
       if (alive == null) {
-        // BFF unreachable — keep the storage entry, retry on next boot.
+        // BFF unreachable - keep the storage entry, retry on next boot.
         return;
       }
       if (alive != true) {
@@ -250,9 +250,9 @@ class _ETellerShellState extends State<ETellerShell> {
     }
   }
 
-  /// BFF `GET /delegate/status?delegation_id=...` — true when a live
+  /// BFF `GET /delegate/status?delegation_id=...` - true when a live
   /// delegation token exists for [delegationId]. Addressed at the BFF root
-  /// (not /proxy/*) — the delegate routes are BFF-own endpoints.
+  /// (not /proxy/*) - the delegate routes are BFF-own endpoints.
   Future<bool?> _delegateStatus(ETellerContext ctx, String delegationId) async {
     try {
       final base = ctx.runtimeContext.bffBaseUrl.replaceAll(RegExp(r'/+$'), '');
@@ -274,7 +274,7 @@ class _ETellerShellState extends State<ETellerShell> {
     }
   }
 
-  /// Called when delegation expires or is revoked — hides customer menu items.
+  /// Called when delegation expires or is revoked - hides customer menu items.
   void _clearDelegation() {
     // §4.3f (Option A): drop the customer-scoped service registry so no
     // further customer-data calls go out under an expired delegation.
@@ -311,11 +311,11 @@ class _ETellerShellState extends State<ETellerShell> {
       // Dashboard quick-action tiles route through this hook so they behave
       // exactly like the sidebar items (delegation guard included).
       ctx.navigate = _navigate;
-      // §3.0.3a — restore a persisted delegation after a full reload so the
+      // §3.0.3a - restore a persisted delegation after a full reload so the
       // teller keeps serving the customer they delegated (assisted-login
       // round-trip). Fire-and-forget; _hasDelegation updates when revalidated.
       _restoreDelegation(ctx);
-      // F-D — wire the e2e sign-out bridge to the real AuthProvider
+      // F-D - wire the e2e sign-out bridge to the real AuthProvider
       // sign-out path (same as clicking the user menu → Sign Out). The
       // bridge function itself is registered in main(); without this
       // handler it is a silent no-op and e2e tests cannot clear the BFF
@@ -326,7 +326,7 @@ class _ETellerShellState extends State<ETellerShell> {
     }
 
     // Avoid sign-in button flicker while the BFF /auth/session call is
-    // still in flight — same guard as eBank's shell.
+    // still in flight - same guard as eBank's shell.
     if (!ctx.auth.isLoaded) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -357,7 +357,7 @@ class _ETellerShellState extends State<ETellerShell> {
             onApproved: _onDelegationApproved,
             onDelegationId: (id) => setState(() {
                   _delegationId = id;
-                  // §3.0.3a — persist the pending delegation id immediately:
+                  // §3.0.3a - persist the pending delegation id immediately:
                   // the approval round-trip (customer consent page) may reload
                   // this app before the SSE 'approved' event is consumed, so
                   // the id must survive in sessionStorage regardless of which
@@ -375,7 +375,7 @@ class _ETellerShellState extends State<ETellerShell> {
       case '/shift-summary':
         content = const ShiftSummaryPage();
         break;
-      // Customer operations — only accessible with delegation token.
+      // Customer operations - only accessible with delegation token.
       case '/cash-deposit':
         content = _hasDelegation ? const CashDepositPage() : _needDelegation();
         break;
@@ -409,7 +409,7 @@ class _ETellerShellState extends State<ETellerShell> {
             ? const ApprovalTasksPage()
             : _needDelegation();
         break;
-      // Ops review surfaces (ETA set 1) — reachable under the delegation
+      // Ops review surfaces (ETA set 1) - reachable under the delegation
       // window like the other customer-operation pages.
       case '/dlq':
         content = _hasDelegation ? const DlqPage() : _needDelegation();
@@ -420,7 +420,7 @@ class _ETellerShellState extends State<ETellerShell> {
       case '/customer-detail':
         // Post-approval landing (set by _onDelegationApproved): the teller
         // continues serving the delegated customer. Requires the delegation
-        // customer id AND a rebuilt service registry (§3.1.3 — during the
+        // customer id AND a rebuilt service registry (§3.1.3 - during the
         // restore window `ctx.services` is still null; fall back to Dashboard
         // so the shell never renders a page that assumes it).
         content = (_hasDelegation &&
@@ -653,10 +653,10 @@ class _ETellerShellState extends State<ETellerShell> {
   /// That scope is granted exclusively to members of the `eteller-admin`
   /// group, which App provisions in the org-scoped Auth when the listing
   /// is installed (see design/sentin8-app-eteller-app-technical-design.md
-  /// §14.4). Exact match — a substring match would false-positive on
+  /// §14.4). Exact match - a substring match would false-positive on
   /// `payments:manual_decisions:read` held by every teller.
   ///
-  /// Per SDK8 §3.9, server enforcement is mandatory — this client guard
+  /// Per SDK8 §3.9, server enforcement is mandatory - this client guard
   /// only hides UI affordances.
   bool _isAdmin(ETellerContext ctx) {
     return ctx.auth.state.scopes.contains('eteller:admin');
@@ -779,7 +779,7 @@ class _SignInScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: Sentin8Spacing.sm),
-                    const Text('Staff access only — no customer sign-up',
+                    const Text('Staff access only - no customer sign-up',
                         style: Sentin8Text.labelSmall,
                         textAlign: TextAlign.center),
                   ],
